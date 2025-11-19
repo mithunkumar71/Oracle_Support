@@ -1,0 +1,273 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+          "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<meta http-equiv="refresh" content="60" />
+<head>
+    <title>Oracle Home Support</title>
+    <meta http-equiv="content-type" content="text/html; charset=iso-8809-1" />
+    <link rel="stylesheet" href="style.css" type="text/css" />
+    <script>
+        window.onload = function () {
+            // Get all the elements that match the selector as arrays
+            var copyTextareaBtn = Array.prototype.slice.call(document.querySelectorAll('.js-textareacopybtn'));
+            var copyTextarea = Array.prototype.slice.call(document.querySelectorAll('.js-copytextarea'));
+            // Loop through the button array and set up event handlers for each element
+            copyTextareaBtn.forEach(function (btn, idx) {
+                btn.addEventListener("click", function () {
+                    // Get the textarea who's index matches the index of the button
+                    copyTextarea[idx].select();
+                    try {
+                        var msg = document.execCommand('copy') ? 'successful' : 'unsuccessful';
+                        console.log('Copying text command was ' + msg);
+                    } catch (err) {
+                        console.log('Whoops, unable to copy');
+                    }
+                });
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <div id="sidebar">
+        <h1>Oracle Home Support</h1>
+        <h2>Mithun Kumar</h2>
+        <h3>13-JUL-2022 to Today</h3>
+        <input type="text" id="mySearch" onkeyup="myFunction()" placeholder="Find..." title="Type in a issue" />
+        <div id="menu">
+            <ol>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#CREATE_USER_11G">Create User (11g)</a></li>
+                <li><a href="#PERMISSION_USER_11G">Permission User (11g)</a></li>                
+                <li><a href="#CREATE_TABLESPACE">Create Tablespace</a></li>
+                <li><a href="#SHOW_DATA_FILE">Show data file</a></li>
+                <li><a href="#ALTER_CHARSET">Change Charset</a></li>
+                <li><a href="#ENABLE_JOB_SCHEDULE">Enable Job Schedule (11g)</a></li>
+                <li><a href="#DATABASE_GROWTH">Database Growth</a></li>
+                <li><a href="#DATABASE_CURRENT_SIZE">Database Current Size</a></li>
+                <li><a href="#PROCESS_SESSIONS_TRANSACTIONS">Processes, Sessions, Transactions Value</a></li>
+                <li><a href="#ACTIVE_SESSIONS">Active Sessions</a></li>
+                <li><a href="#TABLE_SPACE_SIZE">Tablespace Size</a></li>
+                <li><a href="#SHOW_USERS">Show Users</a></li>
+                <li><a href="#UNLOCK_USERS">Unlock Users</a></li>
+                <li><a href="#EXPDP_DOWNGRADE">19C Exp to 11G Imp</a></li>
+            </ol>
+        </div>
+    </div>
+
+    <div id="content">
+        <h1>Oracle Home Support</h1>
+        <h2>Mithun Kumar</h2>
+        <p id="CREATE_USER_11G">
+            <span>Create User (11g)</span>
+            <textarea class="js-copytextarea" readonly="readonly" rows="6" cols="85">
+CREATE USER RAJ
+IDENTIFIED BY 123456
+DEFAULT TABLESPACE users
+TEMPORARY TABLESPACE TEMP
+PROFILE DEFAULT
+ACCOUNT UNLOCK;
+            </textarea>
+            <button class="js-textareacopybtn">Copy</button>
+        </p>
+        <p id="PERMISSION_USER_11G">
+            <span>Permission User (11g)</span>
+            <textarea class="js-copytextarea" readonly="readonly" rows="3" cols="85">
+GRANT DBA TO RAJ;
+GRANT CONNECT TO RAJ;
+GRANT UNLIMITED TABLESPACE TO RAJ;
+            </textarea>
+            <button class="js-textareacopybtn">Copy</button>
+        </p>
+        <p id="CREATE_TABLESPACE">
+            <span>Create tablespace with Datafile</span>
+            <textarea class="js-copytextarea" readonly="readonly" rows="10" cols="85">
+CREATE TABLESPACE [TABLESPACE_NAME] DATAFILE
+'D:\ORACLE\DB11G\ORADATA\DB_NAME\[DATA_FILE_NAME].DBF' SIZE 3050M AUTOEXTEND ON NEXT 10M MAXSIZE UNLIMITED
+LOGGING
+ONLINE
+PERMANENT
+EXTENT MANAGEMENT LOCAL AUTOALLOCATE
+BLOCKSIZE 8K
+SEGMENT SPACE MANAGEMENT AUTO
+FLASHBACK ON;
+            </textarea>
+            <button class="js-textareacopybtn">Copy</button>
+        </p>
+        <p id="SHOW_DATA_FILE">
+            <span>Show data file</span>
+            <textarea class="js-copytextarea" readonly="readonly" rows="1" cols="85">
+select name from v$datafile;
+            </textarea>
+            <button class="js-textareacopybtn">Copy</button>
+        </p>
+        <p id="ALTER_CHARSET">
+            <span>Change Charset</span>
+            <i>[Need change Job Schedule job_queue_process]</i>
+            <textarea class="js-copytextarea" readonly="readonly" rows="7" cols="85">
+sqlplus /nolog
+
+SHUTDOWN IMMEDIATE;
+STARTUP RESTRICT;
+ALTER SYSTEM SET JOB_QUEUE_PROCESSES=0;
+ALTER SYSTEM SET AQ_TM_PROCESSES=0;
+ALTER DATABASE CHARACTER SET WE8MSWIN1252;
+            </textarea>
+            <button class="js-textareacopybtn">Copy</button>
+        </p>
+        <p id="ALTER_CHARSETx">
+            <span>Change Charset [if the above fails]</span>
+            <textarea class="js-copytextarea" readonly="readonly" rows="6" cols="85">
+ALTER DATABASE CHARACTER SET INTERNAL_USE WE8MSWIN1252;
+SHUTDOWN IMMEDIATE;
+STARTUP;
+
+SELECT * FROM gv_$nls_parameters;
+SELECT value$ FROM sys.props$ WHERE name='NLS_CHARACTERSET';
+            </textarea>
+            <button class="js-textareacopybtn">Copy</button>
+        </p>
+        <p id="ENABLE_JOB_SCHEDULE">
+            <span>Enable Job Schedule (11g)</span>
+            <textarea class="js-copytextarea" readonly="readonly" rows="3" cols="85">
+select value from v$parameter where name='job_queue_processes';
+alter system set job_queue_processes=1000;
+select value from v$parameter where name='job_queue_processes';
+            </textarea>
+            <button class="js-textareacopybtn">Copy</button>
+        </p>
+        <p id="DATABASE_GROWTH">
+            <span>Database Growth</span>
+            <textarea class="js-copytextarea" readonly="readonly" rows="30" cols="85">
+SELECT
+(SELECT CREATED FROM V$DATABASE) "CREATE TIME",
+(SELECT NAME FROM V$DATABASE) "DATABASE NAME",
+ROUND((SUM(USED.BYTES) / 1024 / 1024 /1024 ),2) || ' GB' "DATABASE SIZE",
+ROUND((SUM(USED.BYTES) / 1024 / 1024 /1024 ) - ROUND(FREE.P / 1024 / 1024 / 1024 ),2) || ' GB' "USED SPACE",
+ROUND(((SUM(USED.BYTES) / 1024 / 1024 ) - (FREE.P / 1024 / 1024 )) / ROUND(SUM(USED.BYTES) / 1024 / 1024 ,2)*100,2) || '% MB' "USED IN %",
+ROUND((FREE.P / 1024 / 1024 /1024 ),2) || ' GB' "FREE SPACE",
+ROUND(((SUM(USED.BYTES) / 1024 / 1024 ) - ((SUM(USED.BYTES) / 1024 / 1024 ) - ROUND(FREE.P / 1024 / 1024 )))/ROUND(SUM(USED.BYTES) / 1024 / 1024,2 )*100,2) || '% MB' "FREE SPACE IN %",
+ROUND(((SUM(USED.BYTES) / 1024 / 1024 ) - (FREE.P / 1024 / 1024 ))/(SELECT SYSDATE-MIN(CREATION_TIME) FROM V$DATAFILE),2) || ' MB' "GROWTH/DAY",
+ROUND(((SUM(USED.BYTES) / 1024 / 1024 ) - (FREE.P / 1024 / 1024 ))/(SELECT SYSDATE-MIN(CREATION_TIME) FROM V$DATAFILE)/ROUND((SUM(USED.BYTES) / 1024 / 1024 ),2)*100,3) || '% MB' "GROWTH DAY IN %",
+ROUND(((SUM(USED.BYTES) / 1024 / 1024 ) - (FREE.P / 1024 / 1024 ))/(SELECT SYSDATE-MIN(CREATION_TIME) FROM V$DATAFILE)*7,2) || ' MB' "GROWTH/WEEK",
+ROUND((((SUM(USED.BYTES) / 1024 / 1024 ) - (FREE.P / 1024 / 1024 ))/(SELECT SYSDATE-MIN(CREATION_TIME) FROM V$DATAFILE)/ROUND((SUM(USED.BYTES) / 1024 / 1024 ),2)*100)*7,3) || '% MB' "GROWTH/WEEK IN %"
+FROM    (SELECT BYTES FROM V$DATAFILE
+UNION ALL
+SELECT BYTES FROM V$TEMPFILE
+UNION ALL
+SELECT BYTES FROM V$LOG) USED,
+(SELECT SUM(BYTES) AS P FROM DBA_FREE_SPACE) FREE
+GROUP BY FREE.P;
+            </textarea>
+            <button class="js-textareacopybtn">Copy</button>
+        </p>
+        <p id="DATABASE_CURRENT_SIZE">
+            <span>Database Current Size</span>
+            <textarea class="js-copytextarea" readonly="readonly" rows="10" cols="85">
+SELECT ROUND(A.DATA_SIZE + B.TEMP_SIZE + C.REDO_SIZE + D.CONTROLFILE_SIZE)
+"total_size in GB"
+FROM
+(SELECT SUM (BYTES) / 1024 / 1024/1024 DATA_SIZE FROM DBA_DATA_FILES) A,
+(SELECT NVL (SUM (BYTES), 0) / 1024 / 1024/1024 TEMP_SIZE
+FROM
+DBA_TEMP_FILES) B,(SELECT SUM (BYTES) / 1024 / 1024/1024 REDO_SIZE FROM SYS.V_$LOG) C,
+(SELECT SUM (BLOCK_SIZE * FILE_SIZE_BLKS) / 1024 / 1024/1024
+CONTROLFILE_SIZE FROM V$CONTROLFILE) D;
+            </textarea>
+            <button class="js-textareacopybtn">Copy</button>
+        </p>
+        <p id="PROCESS_SESSIONS_TRANSACTIONS">
+            <span>Processes, Sessions, Transactions Value</span>
+            <textarea class="js-copytextarea" readonly="readonly" rows="1" cols="85">
+select name, value from v$parameter where name in('sessions','processes','transactions');
+            </textarea>
+            <button class="js-textareacopybtn">Copy</button>
+        </p>
+        <p id="ACTIVE_SESSIONS">
+            <span>Active Sessions</span>
+            <textarea class="js-copytextarea" readonly="readonly" rows="2" cols="85">
+SELECT SID, Serial#, UserName, Status, SchemaName, Logon_Time, osuser, machine, program, module FROM V$Session WHERE Status='ACTIVE' AND UserName IS NOT NULL;
+            </textarea>
+            <button class="js-textareacopybtn">Copy</button>
+        </p>
+        <p id="TABLE_SPACE_SIZE">
+            <span>Tablespace Size</span>
+            <textarea class="js-copytextarea" readonly="readonly" rows="7" cols="85">
+select b.tablespace_name, tbs_size SizeMb, a.free_space FreeMb
+from  (select tablespace_name, round(sum(bytes)/1024/1024 ,2) as free_space
+from dba_free_space
+group by tablespace_name) a,
+(select tablespace_name, sum(bytes)/1024/1024 as tbs_size
+from dba_data_files
+group by tablespace_name) b where a.tablespace_name(+)=b.tablespace_name;
+            </textarea>
+            <button class="js-textareacopybtn">Copy</button>
+        </p>
+        <p id="SHOW_USERS">
+            <span>Show Users</span>
+            <textarea class="js-copytextarea" readonly="readonly" rows="1" cols="85">
+select username from dba_users;
+            </textarea>
+            <button class="js-textareacopybtn">Copy</button>
+        </p>
+        <p id="UNLOCK_USERS">
+            <span>Unlock Users</span>
+            <textarea class="js-copytextarea" readonly="readonly" rows="1" cols="85">
+alter user [USER NAME] account unlock;
+            </textarea>
+            <button class="js-textareacopybtn">Copy</button>
+        </p>
+        
+             <p id="EXPDP_DOWNGRADE">
+            <span>19C Exp to 11G Imp</span>
+            <textarea class="js-copytextarea" readonly="readonly" rows="17" cols="85">
+In 19C Database :
+[oracle@server backup]$ expdp USER/pwd file=fileName.dmp version="11.2"
+
+Export file to : /data/app/oracle/admin/DB_NAME/dpdump/fileName.dmp
+
+In 11g Database :
+ORA-39213 Metadata processing is not available
+Solution:
+[oracle@server ~]$sys as sysdba
+SQL> execute dbms_metadata_util.load_stylesheets;
+
+Copy file to /data/app/oracle/admin/DB_NAME/dpdump/fileName.dmp
+
+[oracle@server backup]$ impdp USER/pwd file=fileName.dmp fromuser=USER touser=USER log=logfile.log
+
+            </textarea>
+            <button class="js-textareacopybtn">Copy</button>
+        </p>   
+
+
+
+
+        <div class="footer">
+            <p class="copyright-text">&copy; Copyright 2019-2022. Designed by Kayesh </p>
+        </div>
+    </div>
+    
+
+
+    <script>
+        function myFunction() {
+            // Declare variables
+            var input, filter, ul, li, a, i;
+            input = document.getElementById("mySearch");
+            filter = input.value.toUpperCase();
+            ul = document.getElementById("menu");
+            li = ul.getElementsByTagName("li");
+            // Loop through all list items, and hide those who don't match the search query
+            for (i = 0; i < li.length; i++) {
+                a = li[i].getElementsByTagName("a")[0];
+                if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    li[i].style.display = "";
+                } else {
+                    li[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>
