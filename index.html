@@ -30,9 +30,9 @@
 
 <body>
     <div id="sidebar">
-        <h1>Oracle Home Support</h1>
-        <h2>Developed By: Mithun Kumar</h2>
-        <h3>2022-<span id="year"></span></h3>
+        <h1>Oracle Home Support</h1>              
+        <h3>2022-<span id="year"></span></h3>              
+        <h3>Search</h3>
         <input type="text" id="mySearch" onkeyup="myFunction()" placeholder="Find..." title="Type in a issue" />
         <div id="menu">
             <ol>
@@ -64,9 +64,9 @@
 
     <div id="content">
         <h1>Oracle Home Support</h1>
-        <h2>Mithun Kumar</h2>
+        <h2>Developed By: Mithun Kumar</h2>
         <p id="CREATE_USER_11G">
-            <span>Create User (11g)</span>
+            <span>Create User</span>
             <textarea class="js-copytextarea" readonly="readonly" rows="6" cols="85">
 CREATE USER RAJ
 IDENTIFIED BY 123456
@@ -78,7 +78,7 @@ ACCOUNT UNLOCK;
             <button class="js-textareacopybtn">Copy</button>
         </p>
         <p id="PERMISSION_USER_11G">
-            <span>Permission User (11g)</span>
+            <span>Permission User</span>
             <textarea class="js-copytextarea" readonly="readonly" rows="3" cols="85">
 GRANT DBA TO RAJ;
 GRANT CONNECT TO RAJ;
@@ -135,7 +135,7 @@ SELECT value$ FROM sys.props$ WHERE name='NLS_CHARACTERSET';
             <button class="js-textareacopybtn">Copy</button>
         </p>
         <p id="ENABLE_JOB_SCHEDULE">
-            <span>Enable Job Schedule (11g)</span>
+            <span>Enable Job Schedule</span>
             <textarea class="js-copytextarea" readonly="readonly" rows="3" cols="85">
 select value from v$parameter where name='job_queue_processes';
 alter system set job_queue_processes=1000;
